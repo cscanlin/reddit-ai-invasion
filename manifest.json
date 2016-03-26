@@ -27,8 +27,11 @@
         "https://www.reddit.com/*"
       ],
       "js": [
+        "js/jquery/jquery.min.js",
         "js/fuzzyset.js",
-        "src/data.js",
+        "js/mustache.min.js",
+        "src/bot_data.js",
+        "src/comment_template.js",
         "src/inject/inject.js"
       ]
     }
