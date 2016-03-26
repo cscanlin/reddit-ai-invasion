@@ -10,5 +10,4 @@ chrome.extension.onMessage.addListener(
   function(request, sender, sendResponse) {
   	chrome.pageAction.show(sender.tab.id);
     sendResponse();
-    console.log("Hello. This message was sent from scripts/inject.js");
   });

@@ -23,10 +23,12 @@
   "content_scripts": [
     {
       "matches": [
-        "https://www.google.com*",
-        "https://www.reddit.com*"
+        "https://www.google.com/*",
+        "https://www.reddit.com/*"
       ],
       "js": [
+        "js/fuzzyset.js",
+        "src/data.js",
         "src/inject/inject.js"
       ]
     }
