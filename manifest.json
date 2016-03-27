@@ -32,6 +32,7 @@
         "js/mustache.min.js",
         "src/bot_data.js",
         "src/comment_template.js",
+        "src/submission_template.js",
         "src/inject/inject.js"
       ]
     }
