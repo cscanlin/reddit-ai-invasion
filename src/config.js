@@ -1,11 +1,11 @@
 var config = {
-		'BotFuzzinessLimit': .5,
+		'BotFuzzinessLimit': 50,
 		'SubmissionOccurrenceProbability': 100,
 		'CommentOccurrenceProbability': 100,
 		'InsertIntoHomepage': true,
 		'CustomUserName': null,
 		'BotPostSorting': 'top',
-		'BotPostLimit': 100,
+		'BotPostSearchLimit': 100,
 		'submittingBots': [
 				"FULLCOMMUNISM_SS",
 				"outside_SS",

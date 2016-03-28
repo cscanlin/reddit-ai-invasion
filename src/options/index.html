@@ -1,9 +1,54 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title></title>
-</head>
-<body>
+	<head>
+	  <title>My Test Extension Options</title>
+	  <style>
+	    body: { padding: 10px; }
+			.option-container {
+				padding-top: 5px;
+				padding-bottom: 5px;
+			}
+	  </style>
+	</head>
 
-</body>
+	<body>
+
+		<div class="option-container">
+			<span>Insert Into Homepage:</span>
+			<input type="checkbox" id="InsertIntoHomepage">
+		</div>
+		<div class="option-container">
+		  <span>Bot Post Sorting:</span>
+		  <select id="BotPostSorting">
+			   <option value="new">new</option>
+			   <option value="hot">hot</option>
+			   <option value="top">top</option>
+			   <option value="controversial">controversial</option>
+		  </select>
+		</div>
+		<div class="option-container">
+			<span>Bot Fuzziness Limit:</span>
+			<input type="range" id="BotFuzzinessLimit" name="BotFuzzinessLimit" />
+		</div>
+		<div class="option-container">
+			<span>Submission Occurrence Probability:</span>
+			<input type="range" id="SubmissionOccurrenceProbability" name="SubmissionOccurrenceProbability" />
+		</div>
+		<div class="option-container">
+			<span>Comment Occurrence Probability:</span>
+			<input type="range" id="CommentOccurrenceProbability" name="CommentOccurrenceProbability" />
+		</div>
+		<div class="option-container">
+			<span>Bot Post Limit:</span>
+			<input type="range" id="BotPostSearchLimit" name="BotPostSearchLimit" />
+		</div>
+		<div class="option-container">
+			<span>Custom User Name:</span>
+			<input type="text" id="CustomUserName" name="CustomUserName" />
+		</div>
+	  <div id="status"></div>
+	  <button id="save">Save</button>
+
+	  <script src="options.js"></script>
+	</body>
 </html>

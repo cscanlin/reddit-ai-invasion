@@ -27,7 +27,7 @@ function getBotUser(contentType) {
 		}
 		if (getSubredditName() != 'root') {
 				var [matchFuzziness, botName] = FuzzySet(botSet).get(getSubredditName() + '_SS')[0];
-				if (matchFuzziness > config.BotFuzzinessLimit) {
+				if (matchFuzziness > config.BotFuzzinessLimit/100) {
 						return botName;
 				} else {
 						return null;
@@ -73,7 +73,7 @@ function probabilityCheck(probability) {
 function getUserContentData(contentType, username) {
 		return $.ajax({
 				url: "https://api.reddit.com/user/" + username + "/" + contentType,
-				data: {'sort': config.BotPostSorting, 'limit': config.BotPostLimit},
+				data: {'sort': config.BotPostSorting, 'limit': config.BotPostSearchLimit},
 				type: 'get',
 				dataType: 'json',
 		});
