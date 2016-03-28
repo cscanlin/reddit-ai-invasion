@@ -1,3 +1,4 @@
+var submissionTemplate = `
 <div class=" thing id-{{name}} even link " data-author="{{author}}" data-domain="{{domain}}" data-fullname="{{name}}" data-rank="64" data-type="link" data-url="{{url}}" id="thing_{{name}}" onclick="click_thing(this)">
  <p class="parent">
  </p>
@@ -99,3 +100,4 @@
  <div class="clearleft">
  </div>
 </div>
+`

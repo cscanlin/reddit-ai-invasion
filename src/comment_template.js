@@ -27,13 +27,13 @@ var commentTemplate = `<div class=" thing id-{{name}} noncollapsed comment " dat
    <span class="userattrs">
    </span>
    <span class="score dislikes">
-    {{downs}} points
+    {{score}} points
    </span>
    <span class="score unvoted">
     {{score}} points
    </span>
    <span class="score likes">
-    {{ups}} points
+    {{score}} points
    </span>
    <time class="" datetime="2015-06-08T17:40:32+00:00" title="Mon Jun 8 17:40:32 2015 UTC">
     8 hours ago

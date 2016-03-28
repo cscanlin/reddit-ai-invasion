@@ -30,7 +30,7 @@
         "js/jquery/jquery.min.js",
         "js/fuzzyset.js",
         "js/mustache.min.js",
-        "src/bot_data.js",
+        "src/config.js",
         "src/comment_template.js",
         "src/submission_template.js",
         "src/inject/inject.js"
