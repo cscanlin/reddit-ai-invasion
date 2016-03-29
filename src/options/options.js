@@ -8,8 +8,8 @@ function buildBotCheckboxListHTML(ListName, botDefaults) {
     $.each(botDefaults, function(botName, botActive) {
         var botCheckboxHTML = `
         <div class="bot-checkbox-with-label">
-              <span>${botName}:</span>
-              <input type="checkbox" id="${botName}" bot-list="${ListName}">
+            <input type="checkbox" id="${botName}" bot-list="${ListName}">
+            <span>${botName}</span>
         </div>
         `;
         botListHTML += botCheckboxHTML;
@@ -34,7 +34,7 @@ function saveOptions() {
       status.text('Options saved.');
       setTimeout(function() {
         status.text('');
-      }, 750);
+      }, 2000);
   });
 }
 
@@ -72,7 +72,7 @@ function resetDefaultOptions() {
         status.text('Options Reset to Default.');
         setTimeout(function() {
           status.text('');
-        }, 750);
+        }, 2000);
     });
 };
 
@@ -81,7 +81,7 @@ $(document).ready(function() {
     restoreOptions();
 });
 $('.expandContent').click(function(){
-    $('[show-id="' + this.id +'"]').slideToggle('fast');
+    $('[show-id="' + this.id +'"]').toggle();
 });
 $('#save').click(function(){
     saveOptions();

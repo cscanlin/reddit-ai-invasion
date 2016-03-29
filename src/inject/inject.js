@@ -106,7 +106,6 @@ function parseData(contentType, response) {
 		if (contentType == 'comments') {
 				Data.link_id = Data.link_id.split('_')[1];
 				Data.body_html = $('<textarea />').html(Data.body_html).text();
-
 		} else if (contentType = 'submitted') {
 
 				if (getSubredditName() == 'root') {
@@ -133,14 +132,16 @@ function parseData(contentType, response) {
 function injectContent(contentType, template, currentContent) {
 		var botUsername = getBotUser(contentType);
 		if (!botUsername) {
-				console.log('No bot found for ' + pageType() + ' on subreddit ' + getSubredditName())
+				console.log('No bot found for ' + pageType() + ' on subreddit ' + getSubredditName() + '. Bot Fuzziness Limit was ' + userConfig.BotFuzzinessLimit);
+				return;
 		};
 		getUserContentData(contentType, botUsername).then(function (response) {
 				var botContentData = parseData(contentType, response);
 				var botContentRendered = Mustache.render(template, botContentData);
 				var randomCurrent = getRandom(currentContent);
 				randomCurrent.insertAdjacentHTML('afterend', botContentRendered);
-				console.log('Message inserted successfully:', botContentData)
+				console.log('Message inserted successfully:');
+				console.log(botContentData);
 		});
 };
 

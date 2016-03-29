@@ -8,12 +8,21 @@
 				padding-top: 5px;
 				padding-bottom: 5px;
 			}
+			.bot-checkbox-with-label {
+				padding: 2px;
+			}
+			.expandContent {
+				padding-bottom: 5px;
+			}
+			.status-container {
+				padding-bottom: 5px;
+			}
 	  </style>
 	</head>
 
 	<body>
 		<div class="option-container">
-			<span>Insert Random Bot Post Into Homepage:</span>
+			<span>Insert Random Bot Posts Into Homepage:</span>
 			<input type="checkbox" id="InsertIntoHomepage">
 		</div>
 		<div class="option-container">
@@ -46,15 +55,18 @@
 			<input type="text" id="CustomUserName" name="CustomUserName" />
 		</div>
 		<div class="option-container">
-			<div id="expand-submittingBots" class="expandContent"><a href="#">Show Options for Comment and Submit Bots</a></div>
-			<div id="submittingBots" class="showOptions" show-id="expand-submittingBots" style="display:none"></div>
+			<div id="expand-submittingBots" class="expandContent">
+				<button>Show Options for Comment and Submit Bots</button>
+			</div>
+			<div id="submittingBots" show-id="expand-submittingBots" style="display:none"></div>
 		</div>
 		<div class="option-container">
-			<div id="expand-commentOnlyBots" class="expandContent"><a href="#">Show Options for Comment Only Bots</a></div>
-			<div id="commentOnlyBots" class="showOptions" show-id="expand-commentOnlyBots" style="display:none"></div>
+			<div id="expand-commentOnlyBots" class="expandContent">
+				<button>Show Options for Comment Only Bots</button>
+			</div>
+			<div id="commentOnlyBots" show-id="expand-commentOnlyBots" style="display:none"></div>
 		</div>
-		</br>
-	  <div id="status"></div>
+	  <div class="status-container" id="status"></div>
 	  <button id="save">Save</button>
 	  <button id="reset-defaults">Restore Defaults</button>
 
