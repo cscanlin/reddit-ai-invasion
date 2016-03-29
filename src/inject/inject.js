@@ -1,16 +1,16 @@
 function getRandom(array) {
 		return array[Math.floor(Math.random() * array.length)];
-}
+};
 
 function getSubredditName() {
-		var url = window.location.href
+		var url = window.location.href;
 		if (url.split('/')[3] == 'r') {
 				subredditWithPageMarker = url.split('/')[4];
 				return subredditWithPageMarker.split('#')[0];
 		} else {
 				return 'root';
-		}
-	}
+		};
+};
 
 function pageType() {
 		var splitURL = window.location.href.split('/')
@@ -20,8 +20,8 @@ function pageType() {
 				return 'user';
 		} else {
 				return 'submitted';
-		}
-}
+		};
+};
 
 function getBotUser(contentType) {
 		var activeSubmittingBots = getActiveBots(userConfig.submittingBots);
@@ -72,7 +72,7 @@ function STListener(callback) {
 		};
     var STListener = setInterval(function () {
       	if (currentST.attr('id') != lowestST().attr('id')) {
-						currentST = lowestST()
+						currentST = lowestST();
 						if (probabilityCheck(userConfig.SubmissionOccurrenceProbability)) {
 								callback(currentST);
 						};
@@ -99,9 +99,9 @@ function getUserContentData(contentType, username) {
 
 function parseData(contentType, response) {
 		Data = getRandom(response.data.children).data;
-		var baseSubreddit = Data.author.slice(0, -3)
+		var baseSubreddit = Data.author.slice(0, -3);
 		if (userConfig.CustomUserName) {
-				Data.author = userConfig.CustomUserName
+				Data.author = userConfig.CustomUserName;
 		}
 		if (contentType == 'comments') {
 				Data.link_id = Data.link_id.split('_')[1];
@@ -110,39 +110,39 @@ function parseData(contentType, response) {
 		} else if (contentType = 'submitted') {
 
 				if (getSubredditName() == 'root') {
-					 Data.to_subreddit = ' to <a href="https://www.reddit.com/r/' + baseSubreddit + '/" class="subreddit hover may-blank">/r/' + baseSubreddit + '</a>'
-				}
+					 Data.to_subreddit = ' to <a href="https://www.reddit.com/r/' + baseSubreddit + '/" class="subreddit hover may-blank">/r/' + baseSubreddit + '</a>';
+				};
 
 				if (!Data.is_self) {
-						Data.thumbnailTag = '<img alt="" height="70" src="'+ Data.thumbnail +'" width="70"/>'
+						Data.thumbnailTag = '<img alt="" height="70" src="'+ Data.thumbnail +'" width="70"/>';
 				} else {
-						Data.thumbnailTag = null
-				}
+						Data.thumbnailTag = null;
+				};
 
 				if (Data.domain == 'self.SubredditSimulator') {
 						if (getSubredditName() == 'root') {
-								Data.domain = 'reddit.com'
+								Data.domain = 'reddit.com';
 						} else {
-								Data.domain = 'self.' + getSubredditName()
-						}
-
-				}
-		}
-		return Data
-}
+								Data.domain = 'self.' + getSubredditName();
+						};
+				};
+		};
+		return Data;
+};
 
 function injectContent(contentType, template, currentContent) {
 		var botUsername = getBotUser(contentType);
 		if (!botUsername) {
-				return;
+				console.log('No bot found for ' + pageType() + ' on subreddit ' + getSubredditName())
 		};
 		getUserContentData(contentType, botUsername).then(function (response) {
 				var botContentData = parseData(contentType, response);
 				var botContentRendered = Mustache.render(template, botContentData);
 				var randomCurrent = getRandom(currentContent);
 				randomCurrent.insertAdjacentHTML('afterend', botContentRendered);
-		})
-}
+				console.log('Message inserted successfully:', botContentData)
+		});
+};
 
 chrome.storage.sync.get(null, function(userConfig) {
 		window.userConfig = userConfig
@@ -150,7 +150,7 @@ chrome.storage.sync.get(null, function(userConfig) {
 				if (probabilityCheck(userConfig.CommentOccurrenceProbability)) {
 						var currentComments = $('.nestedlisting').find('.comment');
 						injectContent('comments', commentTemplate, currentComments);
-				}
+				};
 		} else if (pageType() == 'submitted') {
 				STListener(function (callbackArg) {
 						var currentLinks = callbackArg.find('div.link').not(".stickied");
