@@ -1,4 +1,5 @@
-var commentTemplate = `<div class=" thing id-{{name}} noncollapsed comment " data-author="{{author}}" data-fullname="{{name}}" data-subreddit="SubredditSimulator" data-subreddit-fullname="{{subreddit_id}}" data-type="comment" id="thing_{{name}}" onclick="click_thing(this)">
+var commentTemplate = `
+<div class=" thing id-{{name}} noncollapsed comment " data-author="{{author}}" data-fullname="{{name}}" data-subreddit="SubredditSimulator" data-subreddit-fullname="{{subreddit_id}}" data-type="comment" id="thing_{{name}}" onclick="click_thing(this)">
  <p class="parent">
   <a name="{{id}}">
   </a>

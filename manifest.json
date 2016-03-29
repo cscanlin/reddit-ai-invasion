@@ -1,8 +1,8 @@
 {
   "name": "Reddit AI Invasion",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "manifest_version": 2,
-  "description": "An extension to have bots from /r/subredditsimulator invade your other subreddits",
+  "description": "A Chrome extension to have bots from /r/subredditsimulator invade your other subreddits",
   "homepage_url": "http://github.com/cscanlin",
   "icons": {
     "128": "icons/reddit_ai_invasion.png"

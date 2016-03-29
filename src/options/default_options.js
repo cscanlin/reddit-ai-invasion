@@ -1,5 +1,12 @@
-var bots = {
-		'defaultSubmittingBots': {
+var defaultOptions = {
+    InsertIntoHomepage: true,
+    BotPostSorting: 'top',
+    BotFuzzinessLimit: 75,
+    SubmissionOccurrenceProbability: 75,
+    CommentOccurrenceProbability: 75,
+    BotPostSearchLimit: 25,
+    CustomUserName: 'DeepMind',
+		submittingBots: {
 				"FULLCOMMUNISM_SS": true,
 				"outside_SS": true,
 				"gifs_SS": true,
@@ -106,7 +113,7 @@ var bots = {
 				"AskWomen_SS": true,
 				"TrueReddit_SS": true
 		},
-		'defaultCommentOnlyBots': {
+		commentOnlyBots: {
 				"comicbooks_SS": true,
 				"startrek_SS": true,
 				"ireland_SS": true,
@@ -254,4 +261,4 @@ var bots = {
 				"polandball_SS": true,
 				"wow_SS": true
 		}
-}
+};

@@ -1,86 +1,53 @@
-$('.expandContent').click(function(){
-    $("[show-id='" + this.id +"']").slideToggle('fast');
-});
-
 function createBotCheckboxes() {
-  $("#CommentAndSubmitBots").html(buildBotCheckboxListHTML(bots.defaultSubmittingBots));
-  $("#CommentOnlyBots").html(buildBotCheckboxListHTML(bots.defaultCommentOnlyBots));
-}
+  $('#submittingBots').html(buildBotCheckboxListHTML('submittingBots', defaultOptions.submittingBots));
+  $('#commentOnlyBots').html(buildBotCheckboxListHTML('commentOnlyBots', defaultOptions.commentOnlyBots));
+};
 
-function buildBotCheckboxListHTML(botDeaults) {
+function buildBotCheckboxListHTML(ListName, botDefaults) {
     botListHTML = '';
-    $.each(botDeaults, function(botName, botActive) {
+    $.each(botDefaults, function(botName, botActive) {
         var botCheckboxHTML = `
         <div class="bot-checkbox-with-label">
               <span>${botName}:</span>
-              <input type="checkbox" id="${botName}">
+              <input type="checkbox" id="${botName}" bot-list="${ListName}">
         </div>
         `;
-        botListHTML += botCheckboxHTML
+        botListHTML += botCheckboxHTML;
     });
-    return '<div class="checkbox-container">' + botListHTML + '</div>'
-}
-
-function getUserBotOptions(botDeaults) {
-    var botOptions = {}
-    $.each(botDeaults, function(botName, botActive) {
-        botOptions[botName] = $('#' + botName).prop('checked');
-    });
-    return botOptions
-}
-
-function restoreUserBotOptions(botOptions) {
-  $.each(botOptions, function(botName, botActive) {
-      $('#' + botName).prop('checked', botActive)
-  });
-}
+    return '<div class="checkbox-container">' + botListHTML + '</div>';
+};
 
 // Saves options to chrome.storage.sync.
-function save_options() {
-  var InsertIntoHomepage = $('#InsertIntoHomepage').prop('checked');
-  var BotPostSorting = $('#BotPostSorting').val();
-  var BotFuzzinessLimit = $('#BotFuzzinessLimit').val();
-  var SubmissionOccurrenceProbability = $('#SubmissionOccurrenceProbability').val();
-  var CommentOccurrenceProbability = $('#CommentOccurrenceProbability').val();
-  var BotPostSearchLimit = $('#BotPostSearchLimit').val();
-  var CustomUserName = $('#CustomUserName').val();
-  if (CustomUserName == '') {
-      CustomUserName = null
-  }
-  var submittingBots = getUserBotOptions(bots.defaultSubmittingBots)
-  var commentOnlyBots = getUserBotOptions(bots.defaultCommentOnlyBots)
+function saveOptions() {
   chrome.storage.sync.set({
-    InsertIntoHomepage: InsertIntoHomepage,
-    BotPostSorting: BotPostSorting,
-    BotFuzzinessLimit: BotFuzzinessLimit,
-    SubmissionOccurrenceProbability: SubmissionOccurrenceProbability,
-    CommentOccurrenceProbability: CommentOccurrenceProbability,
-    BotPostSearchLimit: BotPostSearchLimit,
-    CustomUserName: CustomUserName,
-    submittingBots: submittingBots,
-    commentOnlyBots: commentOnlyBots
+      InsertIntoHomepage: $('#InsertIntoHomepage').prop('checked'),
+      BotPostSorting: $('#BotPostSorting').val(),
+      BotFuzzinessLimit: $('#BotFuzzinessLimit').val(),
+      SubmissionOccurrenceProbability: $('#SubmissionOccurrenceProbability').val(),
+      CommentOccurrenceProbability: $('#CommentOccurrenceProbability').val(),
+      BotPostSearchLimit: $('#BotPostSearchLimit').val(),
+      CustomUserName: $('#CustomUserName').val(),
+      submittingBots: getUserBotOptions($('[bot-list="submittingBots"]')),
+      commentOnlyBots: getUserBotOptions($('[bot-list="commentOnlyBots"]'))
   }, function() {
-    // Update status to let user know options were saved.
-    var status = document.getElementById('status');
-    status.textContent = 'Options saved.';
-    setTimeout(function() {
-      status.textContent = '';
-    }, 750);
+      var status = $('#status');
+      status.text('Options saved.');
+      setTimeout(function() {
+        status.text('');
+      }, 750);
   });
 }
 
-function restore_options() {
-  chrome.storage.sync.get({
-    InsertIntoHomepage: true,
-    BotPostSorting: 'top',
-    BotFuzzinessLimit: 75,
-    SubmissionOccurrenceProbability: 75,
-    CommentOccurrenceProbability: 75,
-    BotPostSearchLimit: 25,
-    CustomUserName: 'DeepMind',
-    submittingBots: bots.defaultSubmittingBots,
-    commentOnlyBots: bots.defaultCommentOnlyBots
-  }, function(items) {
+function getUserBotOptions(botCheckboxes) {
+    var botOptions = {};
+    botCheckboxes.each(function(index, element) {
+        botOptions[$(this).attr('id')] = $(this).prop('checked');
+    });
+    return botOptions;
+};
+
+function restoreOptions(defaultOptions) {
+  chrome.storage.sync.get(defaultOptions, function(items) {
     $('#InsertIntoHomepage').prop('checked', items.InsertIntoHomepage)
     $('#BotPostSorting').val(items.BotPostSorting);
     $('#BotFuzzinessLimit').val(items.BotFuzzinessLimit);
@@ -93,10 +60,33 @@ function restore_options() {
   });
 }
 
-$( document ).ready(function() {
+function restoreUserBotOptions(botOptions) {
+  $.each(botOptions, function(botName, botActive) {
+      $('#' + botName).prop('checked', botActive);
+  });
+};
+
+function resetDefaultOptions() {
+    chrome.storage.sync.set(defaultOptions, function() {
+        var status = $('#status');
+        status.text('Options Reset to Default.');
+        setTimeout(function() {
+          status.text('');
+        }, 750);
+    });
+};
+
+$(document).ready(function() {
     createBotCheckboxes();
-    restore_options();
+    restoreOptions();
+});
+$('.expandContent').click(function(){
+    $('[show-id="' + this.id +'"]').slideToggle('fast');
 });
 $('#save').click(function(){
-    save_options();
+    saveOptions();
+});
+$('#reset-defaults').click(function(){
+    resetDefaultOptions();
+    restoreOptions();
 });

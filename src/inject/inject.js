@@ -30,7 +30,7 @@ function getBotUser(contentType) {
 		}
 		if (getSubredditName() != 'root') {
 				var [matchFuzziness, botName] = FuzzySet(botSet).get(getSubredditName() + '_SS')[0];
-				// console.log(FuzzySet(botSet).get(getSubredditName() + '_SS'));
+				// console.log(matchFuzziness, botName);
 				if (matchFuzziness > userConfig.BotFuzzinessLimit/100) {
 						return botName;
 				} else {
