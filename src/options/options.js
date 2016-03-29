@@ -1,6 +1,6 @@
 function createBotCheckboxes() {
-  $('#submittingBots').html(buildBotCheckboxListHTML('submittingBots', defaultOptions.submittingBots));
-  $('#commentOnlyBots').html(buildBotCheckboxListHTML('commentOnlyBots', defaultOptions.commentOnlyBots));
+    $('#submittingBots').html(buildBotCheckboxListHTML('submittingBots', defaultOptions.submittingBots));
+    $('#commentOnlyBots').html(buildBotCheckboxListHTML('commentOnlyBots', defaultOptions.commentOnlyBots));
 };
 
 function buildBotCheckboxListHTML(ListName, botDefaults) {
