@@ -28,10 +28,9 @@ function getBotUser(contentType) {
 		if (contentType == 'comments') {
 				botSet = botSet.concat(getActiveBots(userConfig.commentOnlyBots));
 		}
-		console.log(botSet);
 		if (getSubredditName() != 'root') {
 				var [matchFuzziness, botName] = FuzzySet(botSet).get(getSubredditName() + '_SS')[0];
-				console.log(FuzzySet(botSet).get(getSubredditName() + '_SS'));
+				// console.log(FuzzySet(botSet).get(getSubredditName() + '_SS'));
 				if (matchFuzziness > userConfig.BotFuzzinessLimit/100) {
 						return botName;
 				} else {
@@ -140,13 +139,11 @@ function injectContent(contentType, template, currentContent) {
 
 function main() {
 	if (pageType() == 'comments') {
-			console.log(userConfig);
 			if (probabilityCheck(userConfig.CommentOccurrenceProbability)) {
 					var currentComments = $('.nestedlisting').find('.comment');
 					injectContent('comments', commentTemplate, currentComments);
 			}
 	} else if (pageType() == 'submitted') {
-			console.log(userConfig);
 			STListener(function (callbackArg) {
 					var currentLinks = callbackArg.find('div.link').not(".stickied");
 					injectContent('submitted', submissionTemplate, currentLinks);

@@ -76,8 +76,8 @@ function restore_options() {
     BotFuzzinessLimit: 75,
     SubmissionOccurrenceProbability: 75,
     CommentOccurrenceProbability: 75,
-    BotPostSearchLimit: 75,
-    CustomUserName: null,
+    BotPostSearchLimit: 25,
+    CustomUserName: 'DeepMind',
     submittingBots: bots.defaultSubmittingBots,
     commentOnlyBots: bots.defaultCommentOnlyBots
   }, function(items) {

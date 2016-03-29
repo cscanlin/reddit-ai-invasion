@@ -13,20 +13,11 @@
 
 	<body>
 		<div class="option-container">
-			<span>Insert Into Homepage:</span>
+			<span>Insert Random Bot Post Into Homepage:</span>
 			<input type="checkbox" id="InsertIntoHomepage">
 		</div>
 		<div class="option-container">
-		  <span>Bot Post Sorting:</span>
-		  <select id="BotPostSorting">
-			   <option value="new">new</option>
-			   <option value="hot">hot</option>
-			   <option value="top">top</option>
-			   <option value="controversial">controversial</option>
-		  </select>
-		</div>
-		<div class="option-container">
-			<span>Bot Fuzziness Limit:</span>
+			<span>Bot Finder Fuzziness Limit:</span>
 			<input type="range" id="BotFuzzinessLimit" name="BotFuzzinessLimit" />
 		</div>
 		<div class="option-container">
@@ -38,11 +29,20 @@
 			<input type="range" id="CommentOccurrenceProbability" name="CommentOccurrenceProbability" />
 		</div>
 		<div class="option-container">
-			<span>Bot Post Limit:</span>
+		  <span>Bot Post Search Sorting:</span>
+		  <select id="BotPostSorting">
+			   <option value="new">new</option>
+			   <option value="hot">hot</option>
+			   <option value="top">top</option>
+			   <option value="controversial">controversial</option>
+		  </select>
+		</div>
+		<div class="option-container">
+			<span>Bot Post Search Limit:</span>
 			<input type="range" id="BotPostSearchLimit" name="BotPostSearchLimit" />
 		</div>
 		<div class="option-container">
-			<span>Custom User Name:</span>
+			<span>Custom Bot User Name:</span>
 			<input type="text" id="CustomUserName" name="CustomUserName" />
 		</div>
 		<div class="option-container">
@@ -58,7 +58,7 @@
 	  <button id="save">Save</button>
 
 	  <script src="/js/jquery/jquery.min.js"></script>
-	  <script src="/src/bots.js"></script>
+	  <script src="/src/data/bots.js"></script>
 	  <script src="options.js"></script>
 	</body>
 </html>
