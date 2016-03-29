@@ -12,30 +12,45 @@ function getSubredditName() {
 		}
 	}
 
-function isComments() {
-		if (window.location.href.split('/')[5] == 'comments') {
-				return true;
+function pageType() {
+		var splitURL = window.location.href.split('/')
+		if (splitURL[5] == 'comments') {
+				return 'comments';
+		} else if (splitURL[3] == 'user') {
+				return 'user';
 		} else {
-				return false;
+				return 'submitted';
 		}
 }
 
 function getBotUser(contentType) {
-		var botSet = config.submittingBots;
+		var botSet = getActiveBots(userConfig.submittingBots);
 		if (contentType == 'comments') {
-				botSet = botSet.concat(config.commentOnlyBots)
+				botSet = botSet.concat(getActiveBots(userConfig.commentOnlyBots));
 		}
+		console.log(botSet);
 		if (getSubredditName() != 'root') {
 				var [matchFuzziness, botName] = FuzzySet(botSet).get(getSubredditName() + '_SS')[0];
-				if (matchFuzziness > config.BotFuzzinessLimit/100) {
+				console.log(FuzzySet(botSet).get(getSubredditName() + '_SS'));
+				if (matchFuzziness > userConfig.BotFuzzinessLimit/100) {
 						return botName;
 				} else {
 						return null;
 				}
-		} else if (config.InsertIntoHomepage) {
+		} else if (userConfig.InsertIntoHomepage) {
 				return getRandom(botSet);
 		}
-}
+};
+
+function getActiveBots(botOptions) {
+		var activeBots = [];
+		$.each(botOptions, function (botName, botActive) {
+				if (botActive) {
+					activeBots.push(botName);
+				};
+		});
+		return activeBots;
+};
 
 function lowestST() {
 		var mainST = $('#siteTable');
@@ -49,13 +64,13 @@ function lowestST() {
 
 function STListener(callback) {
     currentST = lowestST();
-		if (probabilityCheck(config.SubmissionOccurrenceProbability)) {
+		if (probabilityCheck(userConfig.SubmissionOccurrenceProbability)) {
 				callback(currentST);
 		};
     var STListener = setInterval(function () {
       	if (currentST.attr('id') != lowestST().attr('id')) {
             currentST = lowestST();
-						if (probabilityCheck(config.SubmissionOccurrenceProbability)) {
+						if (probabilityCheck(userConfig.SubmissionOccurrenceProbability)) {
 								callback(currentST);
 						};
         };
@@ -73,7 +88,7 @@ function probabilityCheck(probability) {
 function getUserContentData(contentType, username) {
 		return $.ajax({
 				url: "https://api.reddit.com/user/" + username + "/" + contentType,
-				data: {'sort': config.BotPostSorting, 'limit': config.BotPostSearchLimit},
+				data: {'sort': userConfig.BotPostSorting, 'limit': userConfig.BotPostSearchLimit},
 				type: 'get',
 				dataType: 'json',
 		});
@@ -82,8 +97,8 @@ function getUserContentData(contentType, username) {
 function parseData(contentType, response) {
 		Data = getRandom(response.data.children).data;
 		var baseSubreddit = Data.author.slice(0, -3)
-		if (config.CustomUserName) {
-				Data.author = config.CustomUserName
+		if (userConfig.CustomUserName) {
+				Data.author = userConfig.CustomUserName
 		}
 		if (contentType == 'comments') {
 				Data.link_id = Data.link_id.split('_')[1];
@@ -102,7 +117,12 @@ function parseData(contentType, response) {
 				}
 
 				if (Data.domain == 'self.SubredditSimulator') {
-						Data.domain = 'reddit.com'
+						if (getSubredditName() == 'root') {
+								Data.domain = 'reddit.com'
+						} else {
+								Data.domain = 'self.' + getSubredditName()
+						}
+
 				}
 		}
 		return Data
@@ -118,14 +138,33 @@ function injectContent(contentType, template, currentContent) {
 		})
 }
 
-if (isComments()) {
-		if (probabilityCheck(config.CommentOccurrenceProbability)) {
-				var currentComments = $('.nestedlisting').find('.comment');
-				injectContent('comments', commentTemplate, currentComments);
-		}
-	} else {
-				STListener(function (callbackArg) {
-						var currentLinks = callbackArg.find('div.link').not(".stickied");
-						injectContent('submitted', submissionTemplate, currentLinks);
-				});
+function main() {
+	if (pageType() == 'comments') {
+			console.log(userConfig);
+			if (probabilityCheck(userConfig.CommentOccurrenceProbability)) {
+					var currentComments = $('.nestedlisting').find('.comment');
+					injectContent('comments', commentTemplate, currentComments);
+			}
+	} else if (pageType() == 'submitted') {
+			console.log(userConfig);
+			STListener(function (callbackArg) {
+					var currentLinks = callbackArg.find('div.link').not(".stickied");
+					injectContent('submitted', submissionTemplate, currentLinks);
+			});
+	}
 }
+
+chrome.storage.sync.get(null, function(userConfig) {
+	window.userConfig = userConfig
+	if (pageType() == 'comments') {
+			if (probabilityCheck(userConfig.CommentOccurrenceProbability)) {
+					var currentComments = $('.nestedlisting').find('.comment');
+					injectContent('comments', commentTemplate, currentComments);
+			}
+	} else if (pageType() == 'submitted') {
+			STListener(function (callbackArg) {
+					var currentLinks = callbackArg.find('div.link').not(".stickied");
+					injectContent('submitted', submissionTemplate, currentLinks);
+			});
+	}
+});

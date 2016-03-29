@@ -1,6 +1,6 @@
 {
   "name": "Reddit AI Invasion",
-  "version": "0.0.1",
+  "version": "1.2.0",
   "manifest_version": 2,
   "description": "This extension was created with the awesome extensionizr.com",
   "homepage_url": "http://github.com/cscanlin",
@@ -28,7 +28,7 @@
         "js/jquery/jquery.min.js",
         "js/fuzzyset.js",
         "js/mustache.min.js",
-        "src/config.js",
+        "src/bots.js",
         "src/comment_template.js",
         "src/submission_template.js",
         "src/inject/inject.js"
