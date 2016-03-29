@@ -53,9 +53,9 @@ function getActiveBots(botOptions) {
 
 function lowestST() {
 		var mainST = $('#siteTable');
-		var subSTs = mainST.find('.sitetable .linklisting');
+		var subSTs = mainST.find('.sitetable, .linklisting');
 		if (subSTs.length > 0) {
-				return subSTs.eq(0);
+				return subSTs.last();
 		} else {
 				return mainST.eq(0);
 		};
@@ -68,7 +68,7 @@ function STListener(callback) {
 		};
     var STListener = setInterval(function () {
       	if (currentST.attr('id') != lowestST().attr('id')) {
-            currentST = lowestST();
+						currentST = lowestST()
 						if (probabilityCheck(userConfig.SubmissionOccurrenceProbability)) {
 								callback(currentST);
 						};
@@ -152,16 +152,20 @@ function main() {
 }
 
 chrome.storage.sync.get(null, function(userConfig) {
-	window.userConfig = userConfig
-	if (pageType() == 'comments') {
-			if (probabilityCheck(userConfig.CommentOccurrenceProbability)) {
-					var currentComments = $('.nestedlisting').find('.comment');
-					injectContent('comments', commentTemplate, currentComments);
-			}
-	} else if (pageType() == 'submitted') {
-			STListener(function (callbackArg) {
-					var currentLinks = callbackArg.find('div.link').not(".stickied");
-					injectContent('submitted', submissionTemplate, currentLinks);
-			});
-	}
+		window.userConfig = userConfig
+		if (pageType() == 'comments') {
+				if (probabilityCheck(userConfig.CommentOccurrenceProbability)) {
+						var currentComments = $('.nestedlisting').find('.comment');
+						injectContent('comments', commentTemplate, currentComments);
+				}
+		} else if (pageType() == 'submitted') {
+				if (getSubredditName() == 'root' && !userConfig.InsertIntoHomepage) {
+						return;
+				} else {
+						STListener(function (callbackArg) {
+							var currentLinks = callbackArg.find('div.link').not(".stickied");
+							injectContent('submitted', submissionTemplate, currentLinks);
+						});
+				};
+		};
 });
