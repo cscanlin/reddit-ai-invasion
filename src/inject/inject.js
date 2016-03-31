@@ -39,7 +39,7 @@ function getBotUser(contentType) {
 						return null;
 				};
 		} else if (userConfig.InsertIntoHomepage && getSubredditName() == 'root') {
-				return getRandom(botSet);
+				return getRandom(activeBotSet);
 		} else {
 				return null;
 		};
