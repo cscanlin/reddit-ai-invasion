@@ -46,7 +46,11 @@ function getUserBotOptions(botCheckboxes) {
     return botOptions;
 };
 
-function restoreOptions(defaultOptions) {
+function restoreOptions() {
+  console.log(defaultOptions);
+  if (!$('#BotPostSorting').val()) {
+    resetDefaultOptions()
+  }
   chrome.storage.sync.get(defaultOptions, function(items) {
     $('#InsertIntoHomepage').prop('checked', items.InsertIntoHomepage)
     $('#BotPostSorting').val(items.BotPostSorting);
